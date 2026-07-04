@@ -427,3 +427,12 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+*.tfstate
+*.tfstate.backup
+.terraform/
+*.parameters.json
+.env
+*.pfx
+*.publishsettings
+bicep.publishsettings
