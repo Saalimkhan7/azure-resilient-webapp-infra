@@ -8,7 +8,9 @@ resource recoveryVault 'Microsoft.RecoveryServices/vaults@2023-06-01' = {
   sku: {
     name: 'Standard'
   }
-  properties: { }  
+  properties: { 
+    publicNetworkAccess: 'Enabled'
+  }  
 }
 
  resource backupPolicy 'Microsoft.RecoveryServices/vaults/backupPolicies@2023-06-01' = {
