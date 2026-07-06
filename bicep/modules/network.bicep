@@ -33,6 +33,12 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-09-01' = {
           addressPrefix: '10.0.3.0/24'
         }
       }
+       {
+        name: 'AzureBastionSubnet'
+        properties: {
+          addressPrefix: '10.0.4.0/26'
+        }
+       }
     ]
   }
 }
