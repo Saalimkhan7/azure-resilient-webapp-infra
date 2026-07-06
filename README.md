@@ -219,4 +219,4 @@ This project was built on an Azure Student subscription ($100 credit). Key cost 
 ![Bastion](docs/screenshots/bastion-setup-successful.png)
 
 ### Azure Bastion — Secure Browser SSH Connection
-![Bastion](docs/screenshots/bastion-connected.png)
+![Bastion](docs/screenshots/Bastion-connected.png)
