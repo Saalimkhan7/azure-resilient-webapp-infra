@@ -188,38 +188,35 @@ This project was built on an Azure Student subscription ($100 credit). Key cost 
 
 ## Screenshots
 
-### Resource Group — All Resources Deployed
-![Resource Group](docs/screenshots/01-resource-group-overview.png)
-
-### VNet and Subnet Configuration
-![VNet](docs/screenshots/02-vnet-deployed.png)
-
 ### Load Balancer with Health Probe
-![Load Balancer](docs/screenshots/03-loadbalancer-deployed.png)
+![Load Balancer](docs/screenshots/loadbalancer-deployed.PNG)
 
 ### VM Scale Set — 2 Instances Running
-![VMSS](docs/screenshots/04-vmss-deployed.png)
+![VMSS](docs/screenshots/vmss-deployed.PNG)
 
 ### Storage Account — Public Access Disabled
-![Storage](docs/screenshots/05-storage-deployed.png)
-
-### Recovery Services Vault — Backup Policy Configured
-![Backup Vault](docs/screenshots/06-backup-vault.png)
+![Storage](docs/screenshots/storage-deployed.PNG)
 
 ### Backup Job — Completed Successfully
-![Backup Job](docs/screenshots/07-backup-job-completed.png)
+![Backup Job](docs/screenshots/backup-job-completed.png)
+
+### Backup Job on powershell — Completed Successfully 
+![Backup Job](docs/screenshots/backup-job-completed_cmd.png)
 
 ### Before Restore — Corrupted File Present
-![Before Restore](docs/screenshots/08-vm-corrupted-before.png)
+![Before Restore](docs/screenshots/vm-corrupted-before.png)
 
 ### After Restore — File Absent, VM Clean
-![After Restore](docs/screenshots/09-vm-restored-after.png)
+![After Restore](docs/screenshots/vm-restored-after.png)
 
 ### Azure Monitor — CPU Metrics Graph
-![CPU Metrics](docs/screenshots/10-cpu-metrics-monitor.png)
+![CPU Metrics](docs/screenshots/cpu-metrics-monitor.png)
 
 ### Alert Rule — CPU Threshold Configured
-![Alert Rule](docs/screenshots/11-alert-rule.png)
+![Alert Rule](docs/screenshots/alert-rule.jpg)
+
+### Azure Bastion — Setup Successfull
+![Bastion](docs/screenshots/bastion-setup-successful.png)
 
 ### Azure Bastion — Secure Browser SSH Connection
-![Bastion](docs/screenshots/12-bastion-connected.png)
+![Bastion](docs/screenshots/bastion-connected.png)
