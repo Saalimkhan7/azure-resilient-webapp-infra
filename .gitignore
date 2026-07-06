@@ -431,7 +431,6 @@ FodyWeavers.xsd
 *.tfstate
 *.tfstate.backup
 .terraform/
-*.parameters.json
 .env
 *.pfx
 *.publishsettings
