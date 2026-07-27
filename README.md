@@ -1,6 +1,6 @@
 # Azure Resilient Web App Infrastructure
 
-A hands-on Azure infrastructure project demonstrating enterprise-grade architecture using Infrastructure as Code (Bicep + ARM) and PowerShell automation. Built to simulate a real-world, highly available web application environment — covering networking, compute, storage, backup, monitoring, and secure access.
+A hands-on Azure infrastructure project demonstrating enterprise-grade architecture using Infrastructure as Code (Bicep, ARM, and Terraform) and PowerShell automation. Built to simulate a real-world, highly available web application environment — covering networking, compute, storage, backup, monitoring, and secure access.
 
 ---
 
@@ -25,10 +25,30 @@ A hands-on Azure infrastructure project demonstrating enterprise-grade architect
 
 ---
 
+## IaC Approach — Three Tools, One Infrastructure
+
+This project intentionally implements the same infrastructure using three different IaC tools to demonstrate tool selection judgment and multi-tool proficiency:
+
+| Tool | Location | Use Case |
+|---|---|---|
+| **Bicep** | `bicep/` | Azure-native IaC, clean syntax, compiles to ARM |
+| **ARM Templates** | `arm/` | Compiled output from Bicep, low-level reference |
+| **Terraform** | `terraform/` | Multi-cloud IaC, explicit state management, HCL syntax |
+
+**Why all three?**
+- Bicep is preferred for Azure-only environments — Microsoft-native, readable, no state file overhead
+- ARM templates are the compiled output of Bicep — useful for understanding what Azure actually deploys
+- Terraform is preferred when multi-cloud portability or existing Terraform pipelines are required
+
+---
+
 ## Architecture Decisions
 
-**Why Bicep over Terraform?**
+**Why Bicep as primary IaC?**
 This project targets Azure-specific roles (Azure Administrator, IAM Engineer) where Bicep is the native, preferred IaC tool. Bicep compiles directly to ARM, is Microsoft-maintained, and produces cleaner syntax for Azure-only deployments than a multi-cloud tool would.
+
+**Why also Terraform?**
+Terraform demonstrates multi-cloud IaC proficiency and explicit state management — skills increasingly required in enterprise cloud environments. The same infrastructure rebuilt in Terraform shows tool selection rationale, not just tutorial following.
 
 **Why a standalone Management VM alongside VMSS?**
 Azure Backup's standard PowerShell cmdlets do not support enrolling Uniform-mode VMSS instances directly into a Recovery Services Vault. A standalone VM was added to the `app-subnet` specifically to demonstrate a realistic backup and restore workflow — a deliberate architectural decision, not a workaround.
@@ -56,6 +76,21 @@ azure-resilient-webapp-infra/
 │       ├── monitor.bicep          # Log Analytics workspace, CPU metric alert
 │       └── bastion.bicep          # Azure Bastion host, dedicated public IP
 ├── arm/                           # ARM template exports (Bicep comparison reference)
+├── terraform/
+│   ├── main.tf                    # Root module, wires all modules together
+│   ├── variables.tf               # Input variables
+│   ├── outputs.tf                 # Output values
+│   ├── providers.tf               # AzureRM + Random provider config
+│   ├── terraform.tfvars           # Variable values (gitignored)
+│   └── modules/
+│       ├── network/               # VNet + 4 subnets
+│       ├── loadbalancer/          # Standard LB + public IP + health probe
+│       ├── vmss/                  # VM Scale Set (2x B2ats_v2, Ubuntu 22.04)
+│       ├── storage/               # StorageV2, LRS, TLS 1.2
+│       ├── managementvm/          # Standalone VM for backup/restore demo
+│       ├── backup/                # Recovery Services Vault + daily policy
+│       ├── monitor/               # Log Analytics + CPU metric alert
+│       └── bastion/               # Azure Bastion Basic SKU
 ├── scripts/
 │   └── deploy.ps1                 # PowerShell deployment script
 └── docs/
@@ -64,7 +99,7 @@ azure-resilient-webapp-infra/
 
 ---
 
-## Deployment Guide
+## Deployment Guide — Bicep
 
 ### Prerequisites
 - Azure subscription (student or pay-as-you-go)
@@ -126,6 +161,44 @@ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroup -TemplateFile "b
 
 ---
 
+## Deployment Guide — Terraform
+
+### Prerequisites
+- Terraform CLI installed (`https://developer.hashicorp.com/terraform/install`)
+- Azure CLI installed and logged in (`az login`)
+
+### Step 1 — Initialize
+```bash
+cd terraform
+terraform init
+```
+
+### Step 2 — Update Variables
+Edit `terraform/terraform.tfvars` with your values:
+```hcl
+resource_group_name = "rg-webapp-infra-demo"
+location            = "centralindia"
+admin_username      = "azureuser"
+admin_password      = "YourSecurePassword123!"
+```
+
+### Step 3 — Plan
+```bash
+terraform plan
+```
+
+### Step 4 — Apply
+```bash
+terraform apply
+```
+
+### Step 5 — Destroy when done
+```bash
+terraform destroy
+```
+
+---
+
 ## Backup & Restore Demo
 
 One of the key demonstrations in this project is a complete backup and restore workflow:
@@ -170,6 +243,8 @@ This project was built on an Azure Student subscription ($100 credit). Key cost 
 
 - Azure Virtual Networking (VNet, subnets, NSGs, CIDR/subnetting)
 - Infrastructure as Code with Bicep (modular, parameterized templates)
+- Infrastructure as Code with Terraform (modular HCL, provider config, state management)
+- ARM Templates (compiled Bicep output, low-level Azure resource definitions)
 - Azure Compute (VM Scale Sets, standalone VMs, B-series sizing)
 - Azure Backup and Recovery Services Vault
 - Azure Monitor, Log Analytics, and metric alert rules
